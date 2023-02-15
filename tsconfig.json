@@ -21,7 +21,6 @@
     "types": ["mocha", "snowpack-env", "node", "jest"],
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
-    "importsNotUsedAsValues": "error"
+    "allowSyntheticDefaultImports": true
   }
 }

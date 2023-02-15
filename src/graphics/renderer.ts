@@ -1,4 +1,5 @@
-import type { Game } from 'src/game/application/game';
+import { Game } from '../game/application/game';
+import { Position } from '../game/domain/position';
 
 export class Renderer {
   private ctx: CanvasRenderingContext2D;
@@ -7,16 +8,26 @@ export class Renderer {
     private readonly game: Game,
   ) {
     this.ctx = this.canvas.getContext('2d')!;
-    this.render();
+    const render = () => {
+      this.render();
+      window.requestAnimationFrame(render);
+    };
+    render();
   }
 
   render() {
-    this.renderEntities(this.game.getState().entities);
+    const state = this.game.getState();
+    if (state) {
+      this.renderEntities([
+        state.entities.alliedMonster,
+        state.entities.opponentMonster,
+      ]);
+    }
   }
 
-  renderEntities(entities: { x: number; y: number }[]) {
+  renderEntities(entities: { position: Position }[]) {
     for (const entity of entities) {
-      this.drawCircle(entity.x, entity.y, 50);
+      this.drawCircle(entity.position.x, entity.position.y, 50);
     }
   }
 
