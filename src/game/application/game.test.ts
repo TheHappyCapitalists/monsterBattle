@@ -1,4 +1,5 @@
-import { Monster } from '../domain/monster';
+import { BattleIntent } from '../domain/battle-intent';
+import { Monster, MonsterFixtures } from '../domain/monster';
 import { Player } from '../domain/player';
 import { Game } from './game';
 
@@ -7,23 +8,23 @@ describe('it should generate a battlefield', () => {
   let player: Player;
   let alliedMonster: Monster;
   beforeEach(() => {
-    alliedMonster = new Monster({ x: 50, y: 70 });
+    alliedMonster = MonsterFixtures.Betoblyat;
     player = new Player([alliedMonster]);
     game = new Game(player);
   });
   describe('battle', () => {
     it('should switch the context of the game to enter Battle context', () => {
-      const opponent = new Monster({ x: 900, y: 850 });
+      const opponent = MonsterFixtures.Sneko;
       game.startBattle(opponent);
       expect(game.getState()!.context).toBe('Battle');
     });
 
     it('should return the opposing monsters in the battle', () => {
-      const opponent = new Monster({ x: 900, y: 850 });
+      const opponent = MonsterFixtures.Sneko;
       game.startBattle(opponent);
       expect(game.getState()!.entities).toEqual({
-        alliedMonster: { position: alliedMonster.position },
-        opponentMonster: { position: opponent.position },
+        alliedMonster: { position: { x: 100, y: 100 } },
+        opponentMonster: { position: { x: 1500, y: 800 } },
       });
     });
   });
