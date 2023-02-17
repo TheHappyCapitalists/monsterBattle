@@ -12,13 +12,15 @@ export class BattlePhysic<T extends BattleEntity> {
 
   intent(battleIntent: BattleIntent) {
     if (battleIntent.type === 'movement') {
-      this.move(battleIntent.direction);
+      this.move(battleIntent.direction, battleIntent.intensity);
     }
   }
 
-  move(angle: number) {
-    this.angle = angle;
-    this.speed = this.entity.maxSpeed;
+  move(angle: number, intensity: number) {
+    if (intensity > 0) {
+      this.angle = angle;
+    }
+    this.speed = this.entity.maxSpeed * intensity;
   }
 
   tick() {

@@ -3,6 +3,7 @@ import { BattleEntity } from '../domain/battle-entity';
 import type { Monster } from '../domain/monster';
 import { BattlePhysic } from './battle-physic';
 import { InputsState } from '../domain/input';
+import { BasicsAngle } from '../domain/position';
 
 export class EntityNotFoundError extends Error {
   constructor(entity: BattleEntity) {
@@ -20,7 +21,7 @@ export class Battle {
       new BattlePhysic(
         this.actualAlliedMonster,
         { x: 100, y: 100 },
-        (7 / 8) * Math.PI,
+        BasicsAngle.bottomRight,
         0,
       ),
     );
@@ -29,27 +30,32 @@ export class Battle {
       new BattlePhysic(
         this.opponent,
         { x: 1500, y: 800 },
-        (3 / 4) * Math.PI,
+        BasicsAngle.topLeft,
         0,
       ),
     );
   }
 
-  tick() {
+  tick(input: InputsState) {
+    this.input(this.actualAlliedMonster, input);
     this.entitiesReference.forEach((entity) => entity.tick());
   }
 
   translateInput(input: InputsState): BattleIntent[] {
+    console.log(input);
     const intents: BattleIntent[] = [];
-    if (input.analogicInput.intensity > 0.5) {
-      intents.push({ type: 'movement', direction: input.analogicInput.angle });
-    }
+    intents.push({
+      type: 'movement',
+      direction: input.analogicInput.angle,
+      intensity: input.analogicInput.intensity,
+    });
     return intents;
   }
 
-  input(monster: Monster, action: BattleIntent) {
+  input(monster: Monster, input: InputsState) {
     const entity = this.getReference(monster);
-    entity.intent(action);
+    const intents = this.translateInput(input);
+    intents.map((intent) => entity.intent(intent));
   }
 
   getBattleState() {
@@ -58,11 +64,11 @@ export class Battle {
     return {
       alliedMonster: {
         position: allied.position,
-        vector: allied.angle,
+        angle: allied.angle,
       },
       opponentMonster: {
         position: opponent.position,
-        vector: opponent.angle,
+        angle: opponent.angle,
       },
     };
   }

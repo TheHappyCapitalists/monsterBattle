@@ -1,9 +1,11 @@
-import { Game } from '../game/application/game';
-import { Position } from '../game/domain/position';
+import { Game } from '../../application/game';
+import { Position } from '../../domain/position';
+import { ImageStore } from './image-store';
 
 export class Renderer {
   private ctx: CanvasRenderingContext2D;
   constructor(
+    private readonly imageStore: ImageStore,
     private readonly canvas: HTMLCanvasElement,
     private readonly game: Game,
   ) {
@@ -16,6 +18,7 @@ export class Renderer {
   }
 
   render() {
+    this.clear();
     const state = this.game.getState();
     if (state) {
       this.renderEntities([
@@ -27,13 +30,18 @@ export class Renderer {
 
   renderEntities(entities: { position: Position }[]) {
     for (const entity of entities) {
-      this.drawCircle(entity.position.x, entity.position.y, 50);
+      this.drawMonster(entity.position.x, 900 - entity.position.y);
     }
   }
 
-  drawCircle(x: number, y: number, radius: number) {
+  drawMonster(x: number, y: number) {
     this.ctx.beginPath();
-    this.ctx.arc(x, y, radius, 0, 2 * Math.PI);
+    const sneko = this.imageStore.load('sneko');
+    this.ctx.drawImage(sneko, x - 50, y - 50);
     this.ctx.stroke();
+  }
+
+  clear() {
+    this.ctx.clearRect(0, 0, 1600, 900);
   }
 }
