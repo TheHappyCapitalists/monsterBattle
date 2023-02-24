@@ -1,8 +1,7 @@
-import type { Monster } from '../domain/monster';
-import type { Player } from '../domain/player';
-import { KeyboardInputsProvider } from '../infrastructure/keyboard-inputs-provider';
-import { Battle } from './battle';
-import { InputProvider } from './input-provider';
+import { Battle } from './battle/application/battle';
+import { InputProvider } from './input/application/input-provider';
+import { Monster } from './monster/domain/monster';
+import { Player } from './player/domain/player';
 
 type GameContext = 'Battle' | 'World' | 'Menu';
 
@@ -22,11 +21,18 @@ export class Game {
           alliedMonster: {
             position: battleState.alliedMonster.position,
             angle: battleState.alliedMonster.angle,
+            name: battleState.alliedMonster.name,
           },
           opponentMonster: {
             position: battleState.opponentMonster.position,
             angle: battleState.opponentMonster.angle,
+            name: battleState.opponentMonster.name,
           },
+        },
+        battleField: {
+          biome: battleState.battleField.biome,
+          position: battleState.battleField.position,
+          size: battleState.battleField.size,
         },
       };
     }
@@ -34,7 +40,9 @@ export class Game {
 
   startBattle(opponent: Monster) {
     this.context = 'Battle';
-    this.battle = new Battle(this.player.getMonsters(), opponent);
+    this.battle = new Battle(this.player.getMonsters(), opponent, {
+      biome: 'forest',
+    });
   }
 
   tick() {

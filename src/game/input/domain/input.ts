@@ -1,4 +1,4 @@
-import { BasicsAngle } from './position';
+import { BasicsAngle } from '../../shared/angle';
 
 export type AnalogicInput = { intensity: number; angle: number };
 
@@ -31,13 +31,16 @@ export class InputStateBuilder {
 
 export class InputFixture {
   static neutralInput = new InputStateBuilder().build();
-  static turnLeftInput = new InputStateBuilder()
+  static leftDirectionInput = new InputStateBuilder()
     .withAnalogicInput(1, BasicsAngle.left)
     .build();
-  static turnRightInput = new InputStateBuilder()
+  static rightDirectionInput = new InputStateBuilder()
     .withAnalogicInput(1, BasicsAngle.right)
     .build();
-  static bottomRightInput = new InputStateBuilder()
+  static bottomRightDirectionInput = new InputStateBuilder()
     .withAnalogicInput(1, BasicsAngle.bottomRight)
+    .build();
+  static bottomLeftDirectionInput = new InputStateBuilder()
+    .withAnalogicInput(1, BasicsAngle.bottomLeft)
     .build();
 }

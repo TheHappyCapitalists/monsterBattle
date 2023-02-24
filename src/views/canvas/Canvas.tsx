@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import { Renderer } from '../../game/infrastructure/graphics/renderer';
-import { Game } from '../../game/application/game';
-import { Player } from '../../game/domain/player';
-import { Monster, MonsterFixtures } from '../../game/domain/monster';
-import { KeyboardInputsProvider } from '../../game/infrastructure/keyboard-inputs-provider';
-import { LocalImageStore } from '../../game/infrastructure/graphics/local-image-store';
+import { Renderer } from '../../game/graphics/renderer';
+import { Player } from '../../game/player/domain/player';
+import { MonsterFixtures } from '../../game/monster/domain/monster';
+import { KeyboardInputsProvider } from '../../game/input/infrastructure/keyboard-inputs-provider';
+import { LocalImageStore } from '../../game/graphics/infrastructure/local-image-store';
+import { Game } from '../../game/game';
 
 export function Canvas() {
   const canvas = useRef<HTMLCanvasElement>(null);

@@ -1,8 +1,3 @@
-export interface Position {
-  x: number;
-  y: number;
-}
-
 export class BasicsAngle {
   static left = Math.PI;
   static up = Math.PI / 2;

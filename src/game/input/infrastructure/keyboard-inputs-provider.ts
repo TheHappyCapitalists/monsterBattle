@@ -1,6 +1,6 @@
+import { BasicsAngle } from '../../shared/angle';
 import { InputProvider } from '../application/input-provider';
 import { AnalogicInput } from '../domain/input';
-import { BasicsAngle } from '../domain/position';
 
 export class KeyboardInputsProvider implements InputProvider {
   private isKeyDownPressed: boolean = false;
